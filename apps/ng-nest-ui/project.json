@@ -1,0 +1,97 @@
+{
+  "name": "apps/ng-nest-ui",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "prefix": "org",
+  "sourceRoot": "apps/ng-nest-ui/src",
+  "tags": ["app"],
+  "targets": {
+    "build": {
+      "executor": "@angular-devkit/build-angular:application",
+      "outputs": ["{options.outputPath}"],
+      "options": {
+        "outputPath": "dist/apps/ng-nest-ui",
+        "index": "apps/ng-nest-ui/src/index.html",
+        "browser": "apps/ng-nest-ui/src/main.ts",
+        "polyfills": ["zone.js"],
+        "tsConfig": "apps/ng-nest-ui/tsconfig.app.json",
+        "assets": [
+          "apps/ng-nest-ui/src/favicon.ico",
+          "apps/ng-nest-ui/src/assets"
+        ],
+        "styles": ["apps/ng-nest-ui/src/styles.css"],
+        "scripts": []
+      },
+      "configurations": {
+        "production": {
+          "budgets": [
+            {
+              "type": "initial",
+              "maximumWarning": "500kb",
+              "maximumError": "1mb"
+            },
+            {
+              "type": "anyComponentStyle",
+              "maximumWarning": "2kb",
+              "maximumError": "4kb"
+            }
+          ],
+          "outputHashing": "all"
+        },
+        "development": {
+          "optimization": false,
+          "extractLicenses": false,
+          "sourceMap": true
+        }
+      },
+      "defaultConfiguration": "production"
+    },
+    "serve": {
+      "executor": "@angular-devkit/build-angular:dev-server",
+      "options": {
+        "port": 4100,
+        "proxyConfig": "apps/ng-nest-ui/proxy.conf.json"
+      },
+      "configurations": {
+        "production": {
+          "buildTarget": "apps/ng-nest-ui:build:production"
+        },
+        "development": {
+          "buildTarget": "apps/ng-nest-ui:build:development"
+        }
+      },
+      "defaultConfiguration": "development"
+    },
+    "extract-i18n": {
+      "executor": "@angular-devkit/build-angular:extract-i18n",
+      "options": {
+        "buildTarget": "apps/ng-nest-ui:build"
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": [
+          "apps/ng-nest-ui/**/*.ts",
+          "apps/ng-nest-ui/**/*.html"
+        ]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/ng-nest-ui/jest.config.ts"
+      }
+    },
+    "serve-static": {
+      "executor": "@nx/web:file-server",
+      "options": {
+        "buildTarget": "apps/ng-nest-ui:build",
+        "port": 4100,
+        "staticFilePath": "dist/apps/ng-nest-ui/browser"
+      }
+    }
+  }
+}

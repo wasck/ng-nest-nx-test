@@ -1,0 +1,33 @@
+{
+  "name": "apps/ng-nest-ui-e2e",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "projectType": "application",
+  "sourceRoot": "apps/ng-nest-ui-e2e/src",
+  "targets": {
+    "e2e": {
+      "executor": "@nx/cypress:cypress",
+      "options": {
+        "cypressConfig": "apps/ng-nest-ui-e2e/cypress.config.ts",
+        "testingType": "e2e",
+        "devServerTarget": "apps/ng-nest-ui:serve:development"
+      },
+      "configurations": {
+        "production": {
+          "devServerTarget": "apps/ng-nest-ui:serve:production"
+        },
+        "ci": {
+          "devServerTarget": "apps/ng-nest-ui:serve-static"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/ng-nest-ui-e2e/**/*.{js,ts}"]
+      }
+    }
+  },
+  "tags": [],
+  "implicitDependencies": ["apps/ng-nest-ui"]
+}
