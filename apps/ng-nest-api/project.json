@@ -1,0 +1,58 @@
+{
+  "name": "apps/ng-nest-api",
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "sourceRoot": "apps/ng-nest-api/src",
+  "projectType": "application",
+  "targets": {
+    "build": {
+      "executor": "@nx/webpack:webpack",
+      "outputs": ["{options.outputPath}"],
+      "defaultConfiguration": "production",
+      "options": {
+        "target": "node",
+        "compiler": "tsc",
+        "outputPath": "dist/apps/ng-nest-api",
+        "main": "apps/ng-nest-api/src/main.ts",
+        "tsConfig": "apps/ng-nest-api/tsconfig.app.json",
+        "assets": ["apps/ng-nest-api/src/assets"],
+        "isolatedConfig": true,
+        "webpackConfig": "apps/ng-nest-api/webpack.config.js"
+      },
+      "configurations": {
+        "development": {},
+        "production": {}
+      }
+    },
+    "serve": {
+      "executor": "@nx/js:node",
+      "defaultConfiguration": "development",
+      "options": {
+        "buildTarget": "apps/ng-nest-api:build",
+        //"proxyConfig": "apps/ng-nest-api/proxy.conf.json"
+      },
+      "configurations": {
+        "development": {
+          "buildTarget": "apps/ng-nest-api:build:development"
+        },
+        "production": {
+          "buildTarget": "apps/ng-nest-api:build:production"
+        }
+      }
+    },
+    "lint": {
+      "executor": "@nx/eslint:lint",
+      "outputs": ["{options.outputFile}"],
+      "options": {
+        "lintFilePatterns": ["apps/ng-nest-api/**/*.ts"]
+      }
+    },
+    "test": {
+      "executor": "@nx/jest:jest",
+      "outputs": ["{workspaceRoot}/coverage/{projectRoot}"],
+      "options": {
+        "jestConfig": "apps/ng-nest-api/jest.config.ts"
+      }
+    }
+  },
+  "tags": ["app"]
+}
